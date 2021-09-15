@@ -10,6 +10,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
+                yarn test
             }
         }
         stage('Deploy') {
