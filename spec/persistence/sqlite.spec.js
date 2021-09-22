@@ -25,7 +25,8 @@ test('it can store and retrieve items', async () => {
     const items = await db.getItems();
     // expect(items.length).toBe(1);
     expect(items.length).toBeGreaterThan(0);
-    expect(items[0]).toEqual(ITEM);
+    // expect(items[0]).toEqual(ITEM);
+    expect(items[items.length-1]).toEqual(ITEM);
 });
 
 test('it can update an existing item', async () => {
@@ -36,7 +37,6 @@ test('it can update an existing item', async () => {
     const initLength = initialItems.length;
 
     await db.storeItem(ITEM);
-
     await db.updateItem(
         ITEM.id,
         Object.assign({}, ITEM, { completed: !ITEM.completed }),
@@ -49,12 +49,13 @@ test('it can update an existing item', async () => {
 
 test('it can remove an existing item', async () => {
     await db.init();
+    const items = await db.getItems();
+    const currentItemCount = items.length
     await db.storeItem(ITEM);
 
     await db.removeItem(ITEM.id);
 
-    const items = await db.getItems();
-    expect(items.length).toBe(0);
+    expect(items.length).toBe(currentItemCount);
 });
 
 test('it can get a single item', async () => {
